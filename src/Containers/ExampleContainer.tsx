@@ -32,7 +32,10 @@ const ExampleContainer = () => {
     const getAllCountries = async () => {
       await getCountries()
       .unwrap()
-      .then((countryData: Country[]) => setCountries(countryData))
+      .then((countryData: Country[]) => {
+        setCountries(countryData)
+        console.log("countryData", countryData)
+      })
     }
 
     getAllCountries()
