@@ -1,4 +1,4 @@
-package com.musecorn.newarchitecture.components;
+package com.museco.io.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

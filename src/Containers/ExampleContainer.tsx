@@ -15,32 +15,32 @@ import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 
 const ExampleContainer = () => {
-  const { t } = useTranslation()
-  const { Common, Fonts, Gutters, Layout } = useTheme()
-  const dispatch = useDispatch()
+  // const { t } = useTranslation()
+  // const { Common, Fonts, Gutters, Layout } = useTheme()
+  // const dispatch = useDispatch()
 
-  const [userId, setUserId] = useState('9')
-  const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
-    useLazyFetchOneQuery()
+  // const [userId, setUserId] = useState('9')
+  // const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
+  //   useLazyFetchOneQuery()
 
-  useEffect(() => {
-    fetchOne(userId)
-  }, [fetchOne, userId])
+  // useEffect(() => {
+  //   fetchOne(userId)
+  // }, [fetchOne, userId])
 
-  const onChangeTheme = ({ theme, darkMode }: Partial<ThemeState>) => {
-    dispatch(changeTheme({ theme, darkMode }))
-  }
+  // const onChangeTheme = ({ theme, darkMode }: Partial<ThemeState>) => {
+  //   dispatch(changeTheme({ theme, darkMode }))
+  // }
 
   return (
     <ScrollView
-      style={Layout.fill}
-      contentContainerStyle={[
-        Layout.fill,
-        Layout.colCenter,
-        Gutters.smallHPadding,
-      ]}
+      // style={Layout.fill}
+      // contentContainerStyle={[
+      //   Layout.fill,
+      //   Layout.colCenter,
+      //   Gutters.smallHPadding,
+      // ]}
     >
-      <View style={[[Layout.colCenter, Gutters.smallHPadding]]}>
+      {/* <View style={[[Layout.colCenter, Gutters.smallHPadding]]}>
         <Brand />
         {(isLoading || isFetching) && <ActivityIndicator />}
         {!isSuccess ? (
@@ -94,7 +94,7 @@ const ExampleContainer = () => {
         onPress={() => onChangeTheme({ darkMode: false })}
       >
         <Text style={Fonts.textRegular}>Light</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   )
 }

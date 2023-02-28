@@ -1,4 +1,4 @@
-package com.musecorn.newarchitecture;
+package com.museco.io.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.musecorn.BuildConfig;
-import com.musecorn.newarchitecture.components.MainComponentsRegistry;
-import com.musecorn.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.museco.io.BuildConfig;
+import com.museco.io.newarchitecture.components.MainComponentsRegistry;
+import com.museco.io.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.musecorn;
+package com.museco.io;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

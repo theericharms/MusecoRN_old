@@ -1,4 +1,4 @@
-package com.musecorn.newarchitecture.modules;
+package com.museco.io.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
