@@ -1,3 +1,3 @@
 export const Config = {
-  API_URL: 'https://api.staging.museco.io',
+  API_URL: 'https://api.staging.museco.io/api/',
 }
