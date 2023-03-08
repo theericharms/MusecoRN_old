@@ -14,10 +14,14 @@ import {
 
 import { api } from '@/Services/api'
 import theme from './Theme'
+import country from '@/Store/Country'
+import account from '@/Store/Account'
 
 const reducers = combineReducers({
   theme,
   api: api.reducer,
+  country,
+  account,
 })
 
 const persistConfig = {
@@ -30,7 +34,7 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => {
+  middleware: (getDefaultMiddleware) => {
     const middlewares = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -51,3 +55,5 @@ const persistor = persistStore(store)
 setupListeners(store.dispatch)
 
 export { store, persistor }
+
+export type RootState = ReturnType<typeof store.getState>

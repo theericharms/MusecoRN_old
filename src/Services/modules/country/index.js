@@ -1,14 +1,15 @@
 import { api } from '@/Services/api'
 import getCountries from './GetCountries'
 import getCountryById from './GetCountryById'
+import Country from '@/Models/Country'
 
 export const countryApi = api.injectEndpoints({
-  reducerPath: "countryApi",
-  endpoints: build => ({
+  endpoints: (build) => ({
     getCountries: getCountries(build),
-    getCountryById: getCountryById(build)
+    getCountryById: getCountryById(build),
   }),
   overrideExisting: false,
 })
 
-export const { useLazyGetCountriesQuery, useLazyGetCountryByIdQuery } = countryApi
+export const { useLazyGetCountriesQuery, useLazyGetCountryByIdQuery } =
+  countryApi

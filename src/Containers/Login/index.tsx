@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { filter, map, isEmpty } from 'lodash'
 import LoginContainer from './Login'
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack'
 import RootStackParamList from '@/Navigators/RootStackParamList'
-
+import AuthenticateCredentials from '@/Models/AuthenticateCredentials'
+import { RootState } from '@/Store'
+import { useLazyGetCountryByIdQuery } from '@/Services/modules/country'
+import { Country } from '@/Models/Country'
+import { useAuthenticateMutation } from '@/Services/modules/users'
+import { setUser } from '@/Store/Account'
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>
-
 
 // import auth from '@react-native-firebase/auth'
 // import { GoogleSignin } from '@react-native-google-signin/google-signin'
@@ -19,9 +26,49 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>
 //     '70298129969-pgdf0rbi483nk54t1sl8t4n5pjg2mpnd.apps.googleusercontent.com',
 // })
 
-
-const IndexLogin: React.FC<LoginScreenProps>= ({ navigation, route }) => {
+const IndexLogin: React.FC<LoginScreenProps> = ({ navigation, route }) => {
   const dispatch = useDispatch()
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const countries = useSelector(
+    (state: RootState) => state.country.allCountries,
+  )
+
+  const [getCountryById, result, lastPromiseInfo] =
+    useLazyGetCountryByIdQuery<Country>()
+
+  const [authenticate, authResult] = useAuthenticateMutation()
+
+  useEffect(() => {
+    console.log('username: ', username)
+  }, [username])
+
+  useEffect(() => {
+    console.log('password: ', password)
+  }, [password])
+
+  useEffect(() => {
+    console.log('countries login', countries)
+    getCountryById(19)
+      .unwrap()
+      .then((res) => {
+        console.log('country 19', res)
+      })
+      .catch((error) => console.log(error))
+
+    authenticate({
+      username: 'eric@museco.io',
+      password: 'pp00))PP',
+    })
+      .unwrap()
+      .then((res) => {
+        console.log('user res', res)
+        dispatch(setUser({ user: res }))
+      })
+      .catch((error) => console.log(error))
+  }, [])
 
   // const [user, setUser] = useState(null)
   // const profile = useSelector(state => state.user.profile)
@@ -84,9 +131,21 @@ const IndexLogin: React.FC<LoginScreenProps>= ({ navigation, route }) => {
   //   return () => auth.userReference()
   // }
 
+  // const signIn: (args: any) => void => async {
+  // console.log(username, password)
+  // const res = await useLazyAuthenticateQuery()
+  // if(res != null) {
+  //   setUser
+  // }
+  // }
+
   return (
     <LoginContainer
-      // user={user}
+      // signIn={signIn}
+      username={username}
+      password={password}
+      setUsername={setUsername}
+      setPassword={setPassword}
       // onGoogleButtonPress={onGoogleButtonPress}
       // signOut={signOut}
     />

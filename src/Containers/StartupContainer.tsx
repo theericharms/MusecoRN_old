@@ -1,29 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, View, Text } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/Hooks'
 import { Brand } from '@/Components'
 import { setDefaultTheme } from '@/Store/Theme'
 import { navigateAndSimpleReset } from '@/Navigators/utils'
 
-const StartupContainer = () => {
-  const { Layout, Gutters, Fonts } = useTheme()
+import { useLazyGetCountriesQuery } from '@/Services/modules/country'
+import { Country } from '@/Models/Country'
+import { setAllCountries } from '@/Store/Country'
 
+const StartupContainer = () => {
+  const dispatch = useDispatch()
+  const { Layout, Gutters, Fonts } = useTheme()
+  const [getCountries, { data: countryData }] = useLazyGetCountriesQuery()
   const { t } = useTranslation()
 
+  // const [allCountries, setAllCountries] = useState<Country[]>()
+
   const init = async () => {
-    await new Promise(resolve =>
-      setTimeout(() => {
-        resolve(true)
-      }, 2000),
-    )
     await setDefaultTheme({ theme: 'default', darkMode: null })
-    navigateAndSimpleReset('Main')
   }
 
   useEffect(() => {
+    getCountries()
+
     init()
   })
+
+  useEffect(() => {
+    if (countryData != null) {
+      dispatch(setAllCountries({ allCountries: countryData }))
+      navigateAndSimpleReset('Main')
+    }
+  }, [countryData])
 
   return (
     <View style={[Layout.fill, Layout.colCenter]}>

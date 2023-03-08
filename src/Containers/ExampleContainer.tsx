@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
 import { useTheme } from '@/Hooks'
 import { useLazyFetchOneQuery } from '@/Services/modules/users'
-import { useLazyGetCountriesQuery, useLazyGetCountryByIdQuery } from '@/Services/modules/country'
+import { useLazyGetCountriesQuery } from '@/Services/modules/country'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { Country } from '@/Models/Country'
 
@@ -24,40 +24,26 @@ const ExampleContainer = () => {
   // const [userId, setUserId] = useState('9')
   // const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
   //   useLazyFetchOneQuery()
-
-  const [ getCountries, { data: countriesData }] = useLazyGetCountriesQuery<Country[]>()
-  const [countries, setCountries] = useState<Country[] | null>(null)
-
-  useEffect(()=>{
-    const getAllCountries = async () => {
-      await getCountries()
-      .unwrap()
-      .then((countryData: Country[]) => {
-        setCountries(countryData)
-        console.log("countryData", countryData)
-      })
-    }
-
-    getAllCountries()
-
-    
-    
-
+  useEffect(() => {
+    // const getAllCountries = async () => {
+    //   await getCountries()
+    //     .unwrap()
+    //     .then((countryData: Country[]) => {
+    //       setCountries(countryData)
+    //       console.log('countryData', countryData)
+    //     })
+    // }
+    // getAllCountries()
     // getCountryById(19)
     // .unwrap()
     // .then((countryData: Country) => setCountry(countryData))
+  }, [])
 
-  },[])
-
-  useEffect(()=>{
-   
-    if(countries) {
-      console.log(countries)
-    }
-    
-
-  },[countriesData])
-   
+  // useEffect(() => {
+  //   if (countries) {
+  //     console.log(countries)
+  //   }
+  // }, [countriesData])
 
   // useEffect(() => {
   //   fetchOne(userId)
@@ -69,12 +55,12 @@ const ExampleContainer = () => {
 
   return (
     <ScrollView
-      // style={Layout.fill}
-      // contentContainerStyle={[
-      //   Layout.fill,
-      //   Layout.colCenter,
-      //   Gutters.smallHPadding,
-      // ]}
+    // style={Layout.fill}
+    // contentContainerStyle={[
+    //   Layout.fill,
+    //   Layout.colCenter,
+    //   Gutters.smallHPadding,
+    // ]}
     >
       {/* <View style={[[Layout.colCenter, Gutters.smallHPadding]]}>
         <Brand />
