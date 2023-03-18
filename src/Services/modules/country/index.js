@@ -1,7 +1,6 @@
 import { api } from '@/Services/api'
 import getCountries from './GetCountries'
 import getCountryById from './GetCountryById'
-import Country from '@/Models/Country'
 
 export const countryApi = api.injectEndpoints({
   endpoints: (build) => ({

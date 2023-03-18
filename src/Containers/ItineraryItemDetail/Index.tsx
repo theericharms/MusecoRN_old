@@ -1,0 +1,44 @@
+import React, { useState, useEffect } from 'react'
+import { SafeAreaView, View, ScrollView } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { filter, groupBy, map } from 'lodash'
+import Logger from '@/Helpers/Logger'
+import { default as styles } from './styles'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useTheme } from '../../Hooks'
+import { ItineraryStackParamsList } from '@/Navigators/StackNavigators'
+
+// the params list is with the stack or tab navigator defintion
+type IProps = NativeStackScreenProps<
+  ItineraryStackParamsList,
+  'ItineraryItemDetail'
+>
+
+const ItineraryItemDetailContainer = (props: IProps) => {
+  const dispatch = useDispatch()
+  const { wrapper } = styles()
+  const { Common, Fonts, Gutters, Layout } = useTheme()
+
+  const { itineraryItem, pageTitle } = props?.route?.params
+
+  useEffect(() => {
+    // if (itineraryItem != undefined) {
+    console.log('detail', itineraryItem)
+    console.log('pageTitle', pageTitle)
+    // }
+  }, [])
+
+  return (
+    <SafeAreaView>
+      <View style={Common.framework.screenWrapper}>
+        <ScrollView style={Common.framework.scrollView}>
+          <View style={Common.framework.contentWrapper}>
+            {/* content here */}
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+export default ItineraryItemDetailContainer

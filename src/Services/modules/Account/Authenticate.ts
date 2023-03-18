@@ -6,13 +6,9 @@ export default (build: EndpointBuilder<any, any, any>) =>
     query: (user: AuthenticateCredentials) => ({
       url: `Account/Login`,
       method: 'POST',
-      // body: {
-      //   Email: user.username,
-      //   Password: user.password,
-      // },
       body: {
-        Email: 'eric@museco.io',
-        Password: 'pp00))PP',
+        Email: user.username,
+        Password: user.password,
       },
     }),
   })

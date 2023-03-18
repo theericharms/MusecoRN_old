@@ -7,7 +7,13 @@ import { useTheme } from '@/Hooks'
 import MainNavigator from './Main'
 import { navigationRef } from './utils'
 
-const Stack = createStackNavigator()
+type RootStackParamList = {
+  Startup: undefined
+  Main: undefined
+  MainNavigator: undefined
+}
+
+const RootStack = createStackNavigator<RootStackParamList>()
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -18,16 +24,16 @@ const ApplicationNavigator = () => {
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.card }]}>
       <NavigationContainer theme={NavigationTheme} ref={navigationRef}>
         <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Startup" component={StartupContainer} />
-          <Stack.Screen
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          <RootStack.Screen name="Startup" component={StartupContainer} />
+          <RootStack.Screen
             name="Main"
             component={MainNavigator}
             options={{
               animationEnabled: false,
             }}
           />
-        </Stack.Navigator>
+        </RootStack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
   )

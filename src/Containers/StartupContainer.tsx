@@ -7,7 +7,7 @@ import { Brand } from '@/Components'
 import { setDefaultTheme } from '@/Store/Theme'
 import { navigateAndSimpleReset } from '@/Navigators/utils'
 
-import { useLazyGetCountriesQuery } from '@/Services/modules/country'
+import { useLazyGetCountriesQuery } from '@/Services/modules/Country'
 import { Country } from '@/Models/Country'
 import { setAllCountries } from '@/Store/Country'
 

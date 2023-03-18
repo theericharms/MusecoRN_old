@@ -1,6 +1,6 @@
-import Invite from './Invite'
+import { Invite } from '@/Models/Invite'
 
-export default interface User {
+export type User = {
   id: string
   userName: string
   email: string

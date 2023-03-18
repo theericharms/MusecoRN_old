@@ -28,5 +28,18 @@ export default function <C>({ Colors, ...args }: CommonParams<C>) {
         marginBottom: 10,
       },
     }),
+    framework: {
+      screenWrapper: {
+        paddingHorizontal: 10,
+        paddingTop: 10,
+      },
+      scrollView: {
+        backgroundColor: Colors.white,
+      },
+      contentWrapper: {
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+      },
+    },
   }
 }

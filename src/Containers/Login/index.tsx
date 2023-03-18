@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { filter, map, isEmpty } from 'lodash'
-import LoginContainer from './Login'
 import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack'
-import RootStackParamList from '@/Navigators/RootStackParamList'
 import AuthenticateCredentials from '@/Models/AuthenticateCredentials'
 import { RootState } from '@/Store'
-import { useLazyGetCountryByIdQuery } from '@/Services/modules/country'
+import { useLazyGetCountryByIdQuery } from '@/Services/modules/Country'
 import { Country } from '@/Models/Country'
-import { useAuthenticateMutation } from '@/Services/modules/users'
+import { useAuthenticateMutation } from '@/Services/modules/Account'
 import { setUser } from '@/Store/Account'
+// import { MainStackParamsList } from '@/Navigators/Main'
+import { useNavigation } from '@react-navigation/native'
+import { ButtonDefault } from '@/Components/Buttons/ButtonDefault'
+import { Textfield } from '@/Components/Textfield'
+import { SafeAreaView, View, ScrollView } from 'react-native'
+import { MainStackParamsList } from '@/../@types/navigation'
+import { navigateAndSimpleReset } from '@/Navigators/utils'
+// import { Cart } from '@/Models/CartItem'
+import { addToCart, clearCart, removeFromCart } from '@/Store/Cart'
 
-type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>
+// import LoginContainer from './Login/Login'
+
+// type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>
 
 // import auth from '@react-native-firebase/auth'
 // import { GoogleSignin } from '@react-native-google-signin/google-signin'
@@ -26,11 +35,16 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>
 //     '70298129969-pgdf0rbi483nk54t1sl8t4n5pjg2mpnd.apps.googleusercontent.com',
 // })
 
-const IndexLogin: React.FC<LoginScreenProps> = ({ navigation, route }) => {
-  const dispatch = useDispatch()
+type IProps = NativeStackScreenProps<MainStackParamsList, 'Login'>
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const LoginContainer = (props: IProps) => {
+  const dispatch = useDispatch()
+  const nav = useNavigation()
+
+  const { navigation } = props
+
+  const [username, setUsername] = useState('btm.second.bandup@gmail.com')
+  const [password, setPassword] = useState('pp00))pp')
 
   const countries = useSelector(
     (state: RootState) => state.country.allCountries,
@@ -49,6 +63,35 @@ const IndexLogin: React.FC<LoginScreenProps> = ({ navigation, route }) => {
     console.log('password: ', password)
   }, [password])
 
+  // const test = async () => {
+  //   const cartItem: Cart = {
+  //     Cart_Id: 1,
+  //     Cart_ProductId: 2,
+  //     Cart_VariantId: 4,
+  //     Cart_Quantity: 1,
+  //   }
+  //   const cartItem2: Cart = {
+  //     Cart_Id: 2,
+  //     Cart_ProductId: 2,
+  //     Cart_VariantId: 4,
+  //     Cart_Quantity: 1,
+  //   }
+  //   const cartItem3: Cart = {
+  //     Cart_Id: 3,
+  //     Cart_ProductId: 2,
+  //     Cart_VariantId: 4,
+  //     Cart_Quantity: 1,
+  //   }
+
+  //   dispatch(addToCart(cartItem))
+  //   dispatch(addToCart(cartItem2))
+  //   dispatch(addToCart(cartItem3))
+
+  //   dispatch(removeFromCart(0))
+
+  //   dispatch(clearCart())
+  // }
+
   useEffect(() => {
     console.log('countries login', countries)
     getCountryById(19)
@@ -58,16 +101,7 @@ const IndexLogin: React.FC<LoginScreenProps> = ({ navigation, route }) => {
       })
       .catch((error) => console.log(error))
 
-    authenticate({
-      username: 'eric@museco.io',
-      password: 'pp00))PP',
-    })
-      .unwrap()
-      .then((res) => {
-        console.log('user res', res)
-        dispatch(setUser({ user: res }))
-      })
-      .catch((error) => console.log(error))
+    // test()
   }, [])
 
   // const [user, setUser] = useState(null)
@@ -139,17 +173,52 @@ const IndexLogin: React.FC<LoginScreenProps> = ({ navigation, route }) => {
   // }
   // }
 
+  const signIn = () => {
+    authenticate({
+      username: username,
+      password: password,
+    })
+      .unwrap()
+      .then((res) => {
+        //console.log('user res', res)
+        dispatch(setUser({ user: res }))
+        navigateAndSimpleReset('Tabs', 0)
+      })
+      .catch((error) => console.log(error))
+  }
+
   return (
-    <LoginContainer
-      // signIn={signIn}
-      username={username}
-      password={password}
-      setUsername={setUsername}
-      setPassword={setPassword}
-      // onGoogleButtonPress={onGoogleButtonPress}
-      // signOut={signOut}
-    />
+    <SafeAreaView>
+      <View style={{ paddingHorizontal: 10, paddingTop: 10 }}>
+        <ScrollView style={{ backgroundColor: 'white' }}>
+          <View style={{ padding: 20 }}>
+            <Textfield
+              tPlaceholder={'Username'}
+              testID={'tfLoginUsername'}
+              onChangeText={(text) => {
+                setUsername(text)
+              }}
+              // value={username}
+              autoCap={'none'}
+            />
+            <Textfield
+              tPlaceholder="Password"
+              tSecureTextEntry
+              isPassword
+              testID={'tfLoginPassword'}
+              onChangeText={(text) => {
+                setPassword(text)
+              }}
+              // value={password}
+            />
+            <ButtonDefault onPress={signIn} label={''}>
+              Sign In
+            </ButtonDefault>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   )
 }
 
-export default IndexLogin
+export default LoginContainer

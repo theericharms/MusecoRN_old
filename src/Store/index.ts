@@ -16,12 +16,18 @@ import { api } from '@/Services/api'
 import theme from './Theme'
 import country from '@/Store/Country'
 import account from '@/Store/Account'
+import cart from '@/Store/Cart'
+import itinerary from './Itinerary'
+import artist from './Artist'
 
 const reducers = combineReducers({
   theme,
   api: api.reducer,
   country,
   account,
+  cart,
+  itinerary,
+  artist,
 })
 
 const persistConfig = {

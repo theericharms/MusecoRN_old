@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from 'react'
+import { SafeAreaView, View, ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { filter, groupBy, map } from 'lodash'
-import _TemplateContainerContainer from './_TemplateContainer'
 import Logger from '@/Helpers/Logger'
+import { default as styles } from './styles'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useTheme } from '../../Hooks'
 
-const Index_TemplateContainer = ({ navigation }) => {
+// the params list is with the stack or tab navigator defintion
+type IProps = NativeStackScreenProps<YOURSTACKPARAMSLIST, '_TemplateContainer'>
+
+const _TemplateContainerContainer = (props: IProps) => {
   const dispatch = useDispatch()
-
-  const appContent = useSelector(
-    (state) => state.content.appContentTable.framework,
-  )
-  const errors = useSelector((state) => state.content.appContentTable.framework)
-  const fep = useSelector((state) => state.content.frontEndParameters)
-
-  // useEffect(() => {}, [])[])
-
-  const onPress = (route) => {
-    Logger.log(route)
-    // return navigation.navigate(route)
-  }
+  const { wrapper } = styles()
+  const { Common, Fonts, Gutters, Layout } = useTheme()
 
   return (
-    <_TemplateContainerContainer
-      appContent={appContent}
-      errors={errors}
-      fep={fep}
-    />
+    <SafeAreaView>
+      <View style={Common.framework.screenWrapper}>
+        <ScrollView style={Common.framework.scrollView}>
+          <View style={Common.framework.contentWrapper}>
+            {/* content here */}
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   )
 }
 
-export default Index_TemplateContainer
+export default _TemplateContainerContainer

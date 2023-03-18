@@ -6,9 +6,9 @@ const account = createSlice({
   initialState: { user: null } as AccountState,
   reducers: {
     setUser: (state, { payload: { user } }: AccountPayload) => {
-      console.log('store user', user)
+      // console.log('store user', user)
       if (typeof user !== 'undefined') {
-        console.log('store user', user)
+        //console.log('store user', user)
         state.user = user
       }
     },

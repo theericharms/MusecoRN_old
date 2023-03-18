@@ -29,35 +29,35 @@ async function copyFiles() {
   }
 }
 
-async function renameFiles() {
-  try {
-    await fs.rename(
-      path.join(
-        __dirname,
-        `../src/Containers/${containerName}/_TemplateContainer.tsx`,
-      ),
-      path.join(
-        __dirname,
-        `../src/Containers/${containerName}/${containerName}.tsx`,
-      ),
-    )
-    console.log('renameFiles success!')
-  } catch (err) {
-    console.error(err)
-  }
-}
+// async function renameFiles() {
+//   try {
+//     await fs.rename(
+//       path.join(
+//         __dirname,
+//         `../src/Containers/${containerName}/_TemplateContainer.tsx`,
+//       ),
+//       path.join(
+//         __dirname,
+//         `../src/Containers/${containerName}/${containerName}.tsx`,
+//       ),
+//     )
+//     console.log('renameFiles success!')
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
 
 async function replaceText(fileName) {
   try {
     const data = await fs.readFile(
-      path.join(__dirname, `../src/Containers/${containerName}/${fileName}.tsx`),
+      path.join(__dirname, `../src/Containers/${containerName}/Index.tsx`),
       'utf8',
     )
 
     const result = data.replace(/_TemplateContainer/g, containerName)
 
     fs.writeFile(
-      path.join(__dirname, `../src/Containers/${containerName}/${fileName}.tsx`),
+      path.join(__dirname, `../src/Containers/${containerName}/Index.tsx`),
       result,
       'utf8',
     )
@@ -70,9 +70,9 @@ async function replaceText(fileName) {
 async function changeFiles() {
   await makeDir()
   await copyFiles()
-  await renameFiles()
+  // await renameFiles()
   await replaceText('index')
-  await replaceText(containerName)
+  // await replaceText(containerName)
 }
 
 changeFiles()
