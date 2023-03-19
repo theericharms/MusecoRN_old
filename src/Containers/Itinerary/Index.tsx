@@ -41,12 +41,12 @@ const ItineraryContainer = (props: IProps) => {
 
   const [filteredShows, setFilteredShows] = useState<Itinerary[]>()
   const [isFiltered, setIsFiltered] = useState<boolean>(false)
+  const [hasHistory, setHasHistory] = useState<boolean>(false)
+  const [toggleText, setToggleText] = useState('')
+  const [propsItineraryBookings, setPropsItineraryBookings] =
+    useState<ItineraryBookings>()
 
-  // const [itineraryBookings, setItineraryBookings] =
-  //   useState<ItineraryBookings>()
-
-  const [getItineraries, { data: shows }] = useLazyGetItineraryListQuery()
-
+  const [getItineraries, { data }] = useLazyGetItineraryListQuery()
   const [getArtist, { data: artistData }] = useLazyGetArtistByKeyQuery()
 
   const bookingsData = useSelector(
@@ -59,30 +59,26 @@ const ItineraryContainer = (props: IProps) => {
     getItineraries()
       .unwrap()
       .then((res) => {
-        console.log('data', res)
-        // doFilteredItineraries(res.itineraryBookings_Bookings)
-        setFilteredShows(res.itineraryBookings_Bookings)
+        setPropsItineraryBookings(res)
       })
       .catch((error) => console.log('err', error))
   }, [])
 
   useEffect(() => {
-    if (shows != undefined) {
-      // filterShows()
-
-      // console.log('bookingsData aa', shows.itineraryBookings_ArtistId)
-      dispatch(setItineraryBookings({ itineraryBookings: shows }))
-
+    if (propsItineraryBookings != undefined) {
+      dispatch(
+        setItineraryBookings({ itineraryBookings: propsItineraryBookings }),
+      )
       // NOTE: YPE MUST HAVE A '[SYMBOL.ITERATOR]()'
       // make sure you export and are using a lazy query
-      getArtist(shows.itineraryBookings_ArtistKey!)
+      getArtist(propsItineraryBookings.itineraryBookings_ArtistKey!)
         .unwrap()
-        .then((res) => {
-          // console.log('artist', res)
-        })
+        .then((res) => {})
         .catch((error) => console.log('err', error))
+
+      filterItineraries()
     }
-  }, [shows])
+  }, [propsItineraryBookings])
 
   useEffect(() => {
     if (artistData != null) {
@@ -90,38 +86,31 @@ const ItineraryContainer = (props: IProps) => {
     }
   }, [artistData])
 
-  const filterShows = (res: Itinerary[] | undefined) => {
-    console.log('filterShows', '')
-    const today = new Date()
-    var filteredItineraryBookings: Itinerary[] = []
+  useEffect(() => {
+    if (
+      propsItineraryBookings?.itineraryBookings_Bookings?.length !==
+        filteredShows?.length &&
+      filteredShows !== undefined
+    ) {
+      setToggleText('All shows')
+      setHasHistory(true)
+    } else {
+      setToggleText('Upcoming shows')
+    }
+  }, [filteredShows])
 
-    // each(res, (e) => {
-    //   var filtered = some(e.itinerary_ItineraryItemList, function (o) {
-    //     return isAfter(
-    //       new Date(parseInt(o.itineraryItem_DateTime) * 1000),
-    //       addDays(today, -1),
-    //     )
-    //   })
-    //   if (filtered) {
-    //     filteredItineraryBookings.push(e)
-    //   }
-    // })
-
-    // console.log('filteredItineraryBookings', filteredItineraryBookings)
-
-    setFilteredShows(res)
-  }
-
-  const doFilteredItineraries = () => {
-    if (filteredShows?.length !== shows?.itineraryBookings_Bookings?.length) {
+  const filterItineraries = () => {
+    if (isFiltered) {
+      setFilteredShows(propsItineraryBookings?.itineraryBookings_Bookings)
+    } else {
       console.log('doFilteredItineraries', '')
       if (isFiltered) {
-        setFilteredShows(shows?.itineraryBookings_Bookings)
+        setFilteredShows(propsItineraryBookings?.itineraryBookings_Bookings)
       } else {
         const today = new Date()
         var filteredItineraries: Itinerary[] = []
 
-        each(shows?.itineraryBookings_Bookings, (e) => {
+        each(propsItineraryBookings?.itineraryBookings_Bookings, (e) => {
           each(e.itinerary_ItineraryItemList, (f) => {
             var filtered = some(f, function (p) {
               return isAfter(
@@ -129,21 +118,17 @@ const ItineraryContainer = (props: IProps) => {
                 addDays(today, -1),
               )
             })
-            console.log('before', filtered)
-            console.log('before2', e)
-            if (filtered != null) {
+            if (filtered === true) {
               filteredItineraries.push(e)
+              return false
             }
           })
         })
-
-        setFilteredShows([])
-        console.log('filteredItineraries', filteredItineraries)
         setFilteredShows(filteredItineraries)
       }
-
-      setIsFiltered(!isFiltered)
     }
+
+    setIsFiltered(!isFiltered)
   }
 
   return (
@@ -151,21 +136,20 @@ const ItineraryContainer = (props: IProps) => {
       <View style={Common.framework.screenWrapper}>
         <ScrollView style={Common.framework.scrollView}>
           <View style={Common.framework.contentWrapper}>
-            {filteredShows?.length !==
-              shows?.itineraryBookings_Bookings?.length && (
-              <TouchableOpacity
-                onPress={() => {
-                  doFilteredItineraries()
-                }}
-                activeOpacity={1}
-                style={{ marginBottom: 10 }}
-              >
-                <View>
-                  <Label>Toggle</Label>
-                </View>
-              </TouchableOpacity>
-            )}
-
+            {hasHistory &&
+              propsItineraryBookings?.itineraryBookings_Bookings?.length && (
+                <TouchableOpacity
+                  onPress={() => {
+                    filterItineraries()
+                  }}
+                  activeOpacity={1}
+                  style={{ marginBottom: 10 }}
+                >
+                  <View>
+                    <Label>Toggle</Label>
+                  </View>
+                </TouchableOpacity>
+              )}
             <View>
               {filteredShows &&
                 map(filteredShows, (itinerary) => {

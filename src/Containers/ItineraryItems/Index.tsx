@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native'
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { each, filter, groupBy, map, some } from 'lodash'
 import Logger from '@/Helpers/Logger'
@@ -126,6 +132,9 @@ const ItineraryItemsContainer = (props: IProps) => {
                   <Label>{toggleText}</Label>
                 </View>
               </TouchableOpacity>
+            )}
+            {filteredItineraryItems?.length === 0 && (
+              <Text>No upcoming shows for this itierary</Text>
             )}
 
             {filteredItineraryItems &&
