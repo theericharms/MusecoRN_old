@@ -43,32 +43,16 @@ const ItineraryItemsContainer = (props: IProps) => {
   }, [itineraryItems])
 
   useEffect(() => {
-    console.log('itineraryItems.length', allItineraryItems?.length)
-    console.log(
-      'filteredItineraryItems?.length',
-      filteredItineraryItems?.length,
-    )
-
-    console.log(
-      'is equal',
-      allItineraryItems?.length !== filteredItineraryItems?.length,
-    )
-
     if (
       allItineraryItems?.length !== filteredItineraryItems?.length &&
       filteredItineraryItems !== undefined
     ) {
-      console.log('set has history true', '')
       setToggleText('All shows')
       setHasHistory(true)
     } else {
       setToggleText('Upcoming shows')
     }
   }, [filteredItineraryItems])
-
-  useEffect(() => {
-    console.log('hashistory', hasHistory)
-  }, [hasHistory])
 
   const getVenueName = (itineraryItem: ItineraryItem) => {
     if (itineraryItem.itinearyItem_Venue != null) {
@@ -97,7 +81,6 @@ const ItineraryItemsContainer = (props: IProps) => {
         }
       })
 
-      console.log('filteredItineraryBookings', filteredItineraryItems)
       setFilteredItineraryItems(filteredItineraryItems)
     }
 
@@ -143,7 +126,7 @@ const ItineraryItemsContainer = (props: IProps) => {
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate('ItineraryItemDetail', {
-                        ...item,
+                        itineraryItem: item,
                         pageTitle: item.itinearyItem_Venue.venue_Name,
                       } as never)
                     }}

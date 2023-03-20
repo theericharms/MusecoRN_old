@@ -18,4 +18,5 @@ export type Address = {
   address_PostCode: string | null
   address_CountryId: number
   address_CountryIdSelected: number
+  address_ComputedAddress: string
 }

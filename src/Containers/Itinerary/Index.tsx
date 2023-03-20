@@ -103,7 +103,6 @@ const ItineraryContainer = (props: IProps) => {
     if (isFiltered) {
       setFilteredShows(propsItineraryBookings?.itineraryBookings_Bookings)
     } else {
-      console.log('doFilteredItineraries', '')
       if (isFiltered) {
         setFilteredShows(propsItineraryBookings?.itineraryBookings_Bookings)
       } else {

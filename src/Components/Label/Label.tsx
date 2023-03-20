@@ -17,7 +17,8 @@ const Label = (props: Props) => {
   return (
     <Text
       style={{
-        fontSize: FontSize.small,
+        fontSize: FontSize.regular,
+        marginBottom: 3,
         ...props.style,
       }}
     >
